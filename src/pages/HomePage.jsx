@@ -6,24 +6,17 @@ import { Tags } from "../types/tags";
 
 const HomePage = () => {
 
-    let tmp = [];
+    const[products, setProducts] = useState([]);
+    const[query, setQuery] = useState("");
+    const[sort, setSort] = useState("");
+    const[filteredProducts,setFilteredProducts] = useState([]);
 
     fetch("https://flowers.avavion.ru/api/products")
     .then((response) => response.json())
     .then((data)=>{
-        tmp = data.data;
+        setProducts(data.data);
+        setFilteredProducts(data.data);
     })  
-
-    const[products, setProducts] = useState(tmp);
-    const[query, setQuery] = useState("");
-    const[sort, setSort] = useState("");
-    const[filteredProducts,setFilteredProducts] = useState(tmp);
-
-
-
-    useEffect(() => {
-        setFilteredProducts(products)
-    },[products])
 
     useEffect(() => {
         setFilteredProducts(products.filter((item) => item.name.toLowerCase().includes(query.toLowerCase())))
